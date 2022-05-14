@@ -57,3 +57,45 @@ def fill_db():
         Clients.insert_many(city_list).execute()
         Orders.insert_many(orders_list).execute()
         print('*<База данных заполнена!*')
+
+def print_clients():
+    print('\n******************TABLE CLIENTS******************\n')
+    print('\nNAME\t\tCITY\t\tADDRESS')
+    query = Clients.select().order_by(Clients.id)
+    for row in query:
+        print(row.name, row.city, row.address, sep='\t\t', end='\n')
+
+def print_orders():
+    print('\n*********************************TABLE ORDERS*********************************\n')
+    print('\nID CLIENTS\t\tDATE\t\t\tAMOUNT\t\tDESCRIPTION')
+    query = Orders.select().order_by(Orders.id)
+    for row in query:
+        print(row.clients.name, row.date, row.amount, row.description, sep='\t\t', end='\n')
+
+def show_db(n):
+    if n == 'Clients':
+        print_clients()
+    elif n == 'Orders':
+        print_orders()
+    elif n == 'all':
+        print_clients()
+        print_orders()   
+
+if __name__ == "__main__":
+    if len(argv) <= 1 :
+        print(
+            "Создание базы данных db:\tinit\nЗаполнение базы данных db:\tfill\nВывод таблицы db:\t\tshow\nСтарт:\t\t\t\tstart")
+    else:
+        if argv[1] == 'init':
+            init_db()
+        if argv[1] == 'fill':
+            fill_db()
+        if argv[1] == 'show':
+            if len(argv) <= 2:
+                print("Укажите таблицу, которую нужно вывести:\tClients, Orders, all")
+            else:
+                show_db(argv[2])
+        if argv[1] == 'start':
+            init_db()
+            fill_db()
+            show_db('all')
