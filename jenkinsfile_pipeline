@@ -16,9 +16,9 @@ pipeline {
         stage("Output") {
             steps {
                 sh '''
-                    python3 app.py init
-                    python3 app.py fill
-                    python3 app.py show "all"
+                    python3 main_lab1.py init
+                    python3 main_lab1.py fill
+                    python3 main_lab1.py show "all"
                 '''
                 echo 'End Output'
             }
